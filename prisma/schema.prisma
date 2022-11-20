@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+
+
+
+model user {
+  id       String    @id
+  username String    @unique
+  password String
+  account  account? @relation(fields: [accountId], references: [id])
+  accountId String? @unique
+
+  @@map("users")
+}
+
+model account {
+  id           String        @id
+  balance      Decimal  @db.Decimal(20,2)
+  user         user?
+  deb_transactions debTransact[]
+  cred_transactions credTransact[]
+
+  @@map("accounts")
+}
+
+model transaction {
+  id                 String   @id
+  debitedAccountID   String?
+  creditedAccountID String?
+  value              Decimal @db.Decimal(20,2)
+  created_at         DateTime @default(now())
+  debitedId debTransact? @relation(fields: [debitedAccountID], references: [accountId])
+  creditedId credTransact? @relation(fields: [creditedAccountID], references: [accountId])
+
+  @@map("transactions")
+}
+
+
+
+
+model debTransact {
+  id String   @id
+  accountId String? @unique
+  account account? @relation(fields: [accountId], references: [id])
+  transactions transaction[]
+
+  @@map("debitedTransactions")
+}
+
+model credTransact {
+  id String   @id
+  accountId String? @unique
+  account account? @relation(fields: [accountId], references: [id])
+  transactions transaction[]
+
+  @@map("creditedTransactions")
+}
