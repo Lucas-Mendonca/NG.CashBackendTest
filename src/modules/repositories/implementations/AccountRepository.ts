@@ -77,9 +77,7 @@ export class AccountRepository implements IAccountRepository {
         const account = await prisma.account.create({
             data: {
                 id: uuidV4(),
-                balance: 100.00,
-                cred_transactions: { create: { id: uuidV4() }},
-                deb_transactions: { create: { id: uuidV4() }}
+                balance: 100.00
             }
         }) as IAccountDTO
 
