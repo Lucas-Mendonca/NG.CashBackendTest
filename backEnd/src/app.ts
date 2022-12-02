@@ -1,4 +1,4 @@
-import "reflect-metadata"
+import "reflect-metadata" // must come before the container import
 import Express, { NextFunction, Request, Response } from "express";
 import "express-async-errors"
 import "../shared/containers"
