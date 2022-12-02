@@ -1,8 +1,10 @@
-import { inject, injectable } from "tsyringe";
+import appError from "../../../../error/appErrors";
+
 import { ITransactionRepository } from "../../../repositories/ITransactionRepository";
-import { ITransactionDTO } from "../../../dtos/ITransactionDTO";
 import { IAccountRepository } from "../../../repositories/IAccountRepository";
-import { appError } from "../../../../error/appErrors";
+import { ITransactionDTO } from "../../../dtos/ITransactionDTO";
+import { inject, injectable } from "tsyringe";
+
 
 interface IRequest {
     debited_user: string,
@@ -27,12 +29,13 @@ export class CreateTransactionUseCase {
             throw new appError('The debited account and credited account connot be equal')
         };
 
-        const updateDebitedAccount = await this.TransactionRepository.updateBalance(
+        await this.TransactionRepository.updateBalance(
             debitedAccount.id, 
             value,
             false
         );
-        const updateCreditedAccount = await this.TransactionRepository.updateBalance(
+
+        await this.TransactionRepository.updateBalance(
             creditedAccount.id, 
             value,
             true

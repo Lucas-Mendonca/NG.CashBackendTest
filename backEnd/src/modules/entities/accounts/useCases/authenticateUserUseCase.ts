@@ -1,3 +1,4 @@
+import tokenSecretHash from "../../../../../shared/env";
 import appError from "../../../../error/appErrors";
 
 import { IUserRepository } from "../../../repositories/IUserRepository";
@@ -26,22 +27,18 @@ class AuthenticateUserUseCase {
     async execute({ username, password }:IRequest): Promise<IResponse> {
 
         const user = await this.UserRepository.findUserByUsername(username)
-
+        
         if(!user) {
             throw new appError('Username or Password is incorrect');
         };
-
+        
         const passwordMatch = await compare(password, user.password)
 
         if(!passwordMatch) {
             throw new appError('Username or Password is incorrect');
         };
 
-        if(!process.env.TOKEN_SECRET_HASH) {
-            throw new appError('Could not generate Token', 500)
-        }
-
-        const token = sign({}, process.env.TOKEN_SECRET_HASH,{
+        const token = sign({}, tokenSecretHash,{
             subject: user.id,
             expiresIn: "24h"
         })
