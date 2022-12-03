@@ -1,15 +1,15 @@
 import "reflect-metadata" // must come before the container import
+import "../shared/containers"
+
 import Express, { NextFunction, Request, Response } from "express";
 import "express-async-errors"
-import "../shared/containers"
 import mongoSanitize from 'express-mongo-sanitize';
 import Helmet from 'helmet';
 import swaggerUi from "swagger-ui-express"
 import swaggerDocs from "./swagger.json";
 import appError from "./error/appErrors";
 
-import { transactionRoutes } from "./routes/transaction.routes";
-import { accountRoutes } from "./routes/account.routes";
+import { accountRoutes, transactionRoutes } from "./routes"
 
 
 const port = 3333;

@@ -1,0 +1,22 @@
+footer {
+    position: fixed;
+    background-color: aliceblue;
+    bottom: 0;
+    margin: 0;
+    font-size: 10px;
+    width: 100%;
+    height: 70px;
+    left: 0;
+    border-top-style: solid;
+
+    h1 {
+        width: 40%;
+        margin-left: 15px;
+        font-size: 1rem;
+    }
+}
+
+.footerSlot {
+    height: 50px;
+    margin: 0;
+}
