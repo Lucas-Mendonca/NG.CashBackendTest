@@ -11,20 +11,13 @@ interface IRequest {
     password: string
 }
 
-interface IResponse {
-    user: {
-        username: string
-    },
-    token: string
-}
-
 @injectable()
 class AuthenticateUserUseCase {
     constructor (
         @inject('UserRepository')
         private UserRepository: IUserRepository
     ) {}
-    async execute({ username, password }:IRequest): Promise<IResponse> {
+    async execute({ username, password }:IRequest): Promise<Object> {
 
         const user = await this.UserRepository.findUserByUsername(username)
         
