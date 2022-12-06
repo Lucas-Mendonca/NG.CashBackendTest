@@ -11,12 +11,10 @@ import { container } from "tsyringe";
 export class AccountController {
     
     async checkBalance(request: Request, response: Response):Promise<Response> {
-        const tokenHash = response.locals.userToken
-        
-        const token = await getIdFromToken(tokenHash, tokenSecretHash)
+        const userId = response.locals.userId
 
         const checkBalanceUseCase = container.resolve(CheckBalanceUseCase);
-        const result = await checkBalanceUseCase.execute(token)
+        const result = await checkBalanceUseCase.execute(userId)
 
         return response.status(201).json(result);
     }

@@ -23,7 +23,7 @@ export async function validateAuthentication(
     try {
         const user = await getIdFromToken(token ,tokenSecretHash)
 
-        response.locals.userToken = token
+        response.locals.userId = user
         next();
     } catch {
         throw new appError('Invalid Token', 401)

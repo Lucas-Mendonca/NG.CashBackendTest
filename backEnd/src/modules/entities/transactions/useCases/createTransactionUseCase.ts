@@ -2,7 +2,6 @@ import appError from "../../../../error/appErrors";
 
 import { ITransactionRepository } from "../../../repositories/ITransactionRepository";
 import { IAccountRepository } from "../../../repositories/IAccountRepository";
-import { ITransactionDTO } from "../../../dtos/ITransactionDTO";
 import { inject, injectable } from "tsyringe";
 
 
@@ -20,7 +19,7 @@ export class CreateTransactionUseCase {
         @inject('AccountRepository')
         private AccountRepository: IAccountRepository
     ) {}
-    async execute({ debited_user, credited_user, value }: IRequest): Promise<ITransactionDTO> {
+    async execute({ debited_user, credited_user, value }: IRequest): Promise<object> {
 
         const debitedAccount = await this.AccountRepository.findByUserId(debited_user);
         const creditedAccount = await this.AccountRepository.findByUserUsername(credited_user);

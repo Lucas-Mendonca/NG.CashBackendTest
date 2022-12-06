@@ -11,13 +11,6 @@ interface IRequest {
     password: string
 };
 
-interface IResponse {
-    userId: string,
-    username: string,
-    accountId: string,
-    balance: any
-}
-
 @injectable()
 export class CreateAccountUseCase {
     constructor (
@@ -26,8 +19,7 @@ export class CreateAccountUseCase {
         @inject('UserRepository')
         private UserRepository: IUserRepository
     ) {}
-
-    async execute({ username, password }: IRequest):Promise<IResponse> {
+    async execute({ username, password }: IRequest):Promise<object> {
 
         const usernameIsValidy = checkIfUsernameIsValidy(username);
         if (!usernameIsValidy) {
@@ -44,19 +36,15 @@ export class CreateAccountUseCase {
             throw new appError('User already exist');
         };
 
-
-        
         const account = await this.AccountRepository.create();
         const user = await this.UserRepository.create(username, password);
         await this.UserRepository.connectToAccount(user.id, account.id);
 
-        const userAccount: IResponse = {
+        return {
             userId: user.id,
             username,
             accountId: account.id,
             balance: account.balance
         }
-
-        return userAccount
     };
 };

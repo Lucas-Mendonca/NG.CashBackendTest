@@ -10,14 +10,11 @@ import { container } from "tsyringe";
 export class TransactionController {
     async create(request: Request, response: Response):Promise<Response> {
         const { credited_user, value } = request.body;
-        const tokenHash = response.locals.userToken
-
-        const token = await getIdFromToken(tokenHash, tokenSecretHash)
-        if(!token) { return response.status(400).json() }
+        const userId = response.locals.userId
 
         const createTransactionUseCase = container.resolve(CreateTransactionUseCase);
         const result = await createTransactionUseCase.execute({ 
-            debited_user: token, 
+            debited_user: userId, 
             credited_user, 
             value 
         })
