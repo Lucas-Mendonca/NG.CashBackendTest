@@ -4,8 +4,6 @@ import appError from "../error/appErrors";
 
 import { NextFunction, Request, Response } from "express";
 
-
-
 export async function validateAuthentication(
     request: Request,
     response: Response,
@@ -20,12 +18,8 @@ export async function validateAuthentication(
 
     const [, token] = authHeaderToken.split(" ");
 
-    try {
-        const user = await getIdFromToken(token ,tokenSecretHash)
+    const user = await getIdFromToken(token ,tokenSecretHash)
 
-        response.locals.userId = user
-        next();
-    } catch {
-        throw new appError('Invalid Token', 401)
-    }
+    response.locals.userId = user
+    next();
 };

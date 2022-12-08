@@ -17,7 +17,7 @@ services:
   network_mode: host
 
  api:
-  build: ./backEnd
+  build: .
   container_name: ngapp_backend
   network_mode: host
   depends_on:
@@ -26,15 +26,6 @@ services:
    - 3333:3333
   volumes:
    - .:/app
-
- view:
-  build: ./frontEnd
-  container_name: ngapp_frontend
-  network_mode: host
-  ports:
-   - 4200:4200
-  volumes:
-   - .:/view
 
 volumes:
  postgres-data:

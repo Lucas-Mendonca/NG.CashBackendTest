@@ -13,12 +13,13 @@ export default async function getIdFromToken(
 ):Promise<string> 
 
 {
+
     const { sub } = verify(token, secret) as ITokenId;
 
     const user = await prisma.user.findUnique({ where: { id: sub } });
 
     if(!user) {
-        throw new appError('User not found')
+        throw new appError('Invalid Token', 401)
     }
 
     return user.id

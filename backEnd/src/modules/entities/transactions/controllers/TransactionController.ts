@@ -24,14 +24,11 @@ export class TransactionController {
 
     async search(request: Request, response: Response):Promise<Response> {
         const { searchMethod, from, to } = request.body;
-        const tokenHash = response.locals.userToken
-        
-        const token = await getIdFromToken(tokenHash, tokenSecretHash)
-        if(!token) { return response.status(500).json() }
+        const userId = response.locals.userId
 
         const findTransactionsUseCase = container.resolve(FindTransactionsUseCase);
         const result = await findTransactionsUseCase.execute({
-            userId: token,
+            userId: userId,
             searchMethod,
             from,
             to,
